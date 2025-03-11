@@ -9,6 +9,9 @@
     <h1>Click the button to send your location</h1>
     <button onclick="sendLocation()">Get My Location</button>
 
+    <h2>Your Geolocation</h2>
+    <p id="location">Waiting for location...</p> <!-- Display location here -->
+
     <script>
         function sendLocation() {
             if ("geolocation" in navigator) {
@@ -16,6 +19,10 @@
                     (position) => {
                         const { latitude, longitude } = position.coords;
                         console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+
+                        // Display the location on the page
+                        document.getElementById("location").textContent = 
+                            `Latitude: ${latitude}, Longitude: ${longitude}`;
 
                         // Send data to your server
                         fetch("/location", {
@@ -31,6 +38,7 @@
                     },
                     (error) => {
                         console.error("Error getting location:", error);
+                        document.getElementById("location").textContent = "Error getting location.";
                     }
                 );
             } else {
